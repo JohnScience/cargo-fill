@@ -10,46 +10,6 @@ mod fill_rust_version;
 use fill_miscellaneous::fill_miscellaneous;
 use fill_rust_version::fill_rust_version;
 
-#[allow(dead_code)]
-const DEFAULT_CARGO_TOML: &'static str = r#"
-[package]
-name = "cargo-fill"
-version = "0.1.0"
-edition = "2021"
-"#;
-
-#[allow(dead_code)]
-const FILLED_CARGO_TOML: &'static str = r#"
-[package]
-name = "maybe-owned-trait"
-version = "0.2.1"
-authors = ["Dmitrii Demenev <demenev.dmitriy1@gmail.com>"]
-edition = "2021"
-# rust-version
-description = "Either an owned or borrowed value, with type known at compile time."
-documentation = "https://docs.rs/maybe-owned-trait"
-readme = "README.md"
-# homepage = ""
-repository = "https://github.com/JohnScience/maybe-owned-trait"
-license = "MIT OR Apache-2.0"
-# license-file | not needed
-keywords = ["cow", "owned", "borrowed"]
-categories = ["rust-patterns"]
-# workspace | not needed
-# build | not needed
-# links | not needed
-# exclude | not needed
-# include | not needed
-# publish | not needed
-# metadata | not needed
-# default-run | not needed
-# autobins | not needed
-# autoexamples | not needed
-# autotests | not needed
-# autobenches | not needed
-# resolver | not needed
-"#;
-
 fn read_toml() -> cargo_toml::Manifest {
     let mut cur_dir = std::env::current_dir()
         .unwrap_or_else(|e| panic!("Failed to get the current directory: {}", e));
