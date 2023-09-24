@@ -6,7 +6,7 @@ authors = ["Dmitrii Demenev <demenev.dmitriy1@gmail.com>"]
 description = "An interactive CLI tool for filling the fields of `Cargo.toml` quickly."
 documentation = "https://docs.rs/cargo-fill"
 readme = "README.md"
-keywords = ["fill", "Cargo.toml", "manifest", "productivity"]
+keywords = ["fill", "manifest", "productivity"]
 license = "MIT OR Apache-2.0"
 categories = [
     "command-line-utilities",
