@@ -5,7 +5,7 @@ use crossbeam::thread::scope;
 use promptly::{prompt, ReadlineError};
 
 const PROMPT: &'static str = r#"
-Please choose the strategy to fill the `rust-version` field:
+Please choose the method of entering the `rust-version` field:
 
 1. Skip (default).
 2. Run `cargo-msrv` <https://github.com/foresterre/cargo-msrv> and fill the field with the result.
@@ -124,8 +124,8 @@ pub(crate) fn fill_rust_version(package: &mut Package) -> Result<(), ReadlineErr
     println!("Filling the `rust-version` field.");
     println!("Description: \"The minimal supported Rust version.\"");
     loop {
-        let strat: String = prompt(PROMPT)?;
-        match strat.as_str() {
+        let c: String = prompt(PROMPT)?;
+        match c.as_str() {
             "1" => {
                 // skip
                 break;

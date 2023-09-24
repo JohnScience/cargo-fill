@@ -338,6 +338,7 @@ fn fill_keywords(package: &mut Package) -> Result<(), ReadlineError> {
 fn fill_categories(package: &mut Package) -> Result<(), ReadlineError> {
     println!("Filling the `categories` field.");
     println!("Description: \"Categories of the package.\"");
+    println!("See <https://crates.io/category_slugs> for the list of categories.");
     let categories = loop {
         let c: String = prompt(
             "Please choose the method of entering the categories.\n\
@@ -349,7 +350,8 @@ fn fill_categories(package: &mut Package) -> Result<(), ReadlineError> {
         match c.as_str() {
             "1" => return Ok(()),
             "2" => {
-                let categories: String = prompt("Please enter the categories separated by comma")?;
+                let categories: String =
+                    prompt("Please enter the categories separated by comma\n")?;
                 break categories;
             }
             _ => println!("Invalid input."),
