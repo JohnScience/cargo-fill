@@ -250,7 +250,7 @@ fn fill_license(package: &mut Package) -> Result<(), ReadlineError> {
             ",
         )?;
         match c.as_str() {
-            "1" => return Ok(()),
+            "1" => break "MIT OR Apache-2.0".to_string(),
             "2" => {
                 let license: String = prompt("Please enter the license")?;
                 break license;
