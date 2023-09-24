@@ -104,7 +104,11 @@ fn run_msrv(package: &mut Package) -> Result<(), ()> {
     let stderr = String::from_utf8_lossy(&stderr);
     let msrv = {
         // E.g. "Check for toolchain '1.61.0-x86_64-pc-windows-msvc' succeeded"
-        let msg = stderr.lines().rev().find(|s| s.ends_with("succeeded")).unwrap();
+        let msg = stderr
+            .lines()
+            .rev()
+            .find(|s| s.ends_with("succeeded"))
+            .unwrap();
         let (msrv, _suffix) = msg
             .strip_prefix("Check for toolchain '")
             .unwrap()
@@ -118,6 +122,7 @@ fn run_msrv(package: &mut Package) -> Result<(), ()> {
 
 pub(crate) fn fill_rust_version(package: &mut Package) -> Result<(), ReadlineError> {
     println!("Filling the `rust-version` field.");
+    println!("Description: \" The minimal supported Rust version.\"");
     loop {
         let strat: String = prompt(PROMPT)?;
         match strat.as_str() {

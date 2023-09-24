@@ -1,3 +1,4 @@
+#![allow(dead_code)]
 use std::path::PathBuf;
 
 use cargo_toml::OptionalFile;
@@ -7,8 +8,11 @@ use cargo_toml::Package;
 use cargo_toml::Inheritable;
 use promptly::{prompt, ReadlineError};
 
+mod fill_miscellaneous;
 mod fill_rust_version;
 
+use fill_miscellaneous::fill_miscellaneous;
+#[allow(unused_imports)]
 use fill_rust_version::fill_rust_version;
 
 #[allow(dead_code)]
@@ -62,16 +66,23 @@ fn read_toml() -> cargo_toml::Manifest {
 
 fn fill_authors(package: &mut Package) -> Result<(), ReadlineError> {
     println!("Filling the `authors` field.");
+    println!("Description: \"The authors of the package.\"");
     // TODO: find ways to obtain the author's info with his permission
 
-    let authors: String =
-        prompt("Please enter your info, e.g. `Dmitrii Demenev <demenev.dmitriy1@gmail.com>`")?;
-    package.authors.set(vec![authors]);
+    let authors: String = prompt(
+        "Please enter comma-separated authors, e.g. `Dmitrii Demenev <demenev.dmitriy1@gmail.com>`",
+    )?;
+    let authors = authors
+        .split(',')
+        .map(|s| s.trim().to_string())
+        .collect::<Vec<_>>();
+    package.authors.set(authors);
     Ok(())
 }
 
 fn fill_description(package: &mut Package) -> Result<(), ReadlineError> {
     println!("Filling the `description` field.");
+    println!("Description: \"A description of the package.\"");
     let description: String = prompt("Please enter the crate description")?;
     package.description = Some(Inheritable::Set(description));
     Ok(())
@@ -79,6 +90,7 @@ fn fill_description(package: &mut Package) -> Result<(), ReadlineError> {
 
 fn fill_documentation(package: &mut Package) -> Result<(), ReadlineError> {
     println!("Filling the `documentation` field.");
+    println!("Description: \"The URL of the package documentation.\"");
     let documentation = loop {
         let c: String = prompt(format!(
             "Please choose the method of entering the documentation.\n\
@@ -105,6 +117,7 @@ fn fill_documentation(package: &mut Package) -> Result<(), ReadlineError> {
 
 fn fill_readme(package: &mut Package) -> Result<(), ReadlineError> {
     println!("Filling the `readme` field.");
+    println!("Description: \"Path to the package’s README file.\"");
     let readme = loop {
         let c: String = prompt(format!(
             "Please choose the method of entering the README.\n\
@@ -131,6 +144,7 @@ fn fill_readme(package: &mut Package) -> Result<(), ReadlineError> {
 
 fn fill_homepage(package: &mut Package) -> Result<(), ReadlineError> {
     println!("Filling the `homepage` field.");
+    println!("URL of the package homepage.");
     loop {
         let c: String = prompt(format!(
             "Please choose the method of entering the homepage.\n\
@@ -154,6 +168,7 @@ fn fill_homepage(package: &mut Package) -> Result<(), ReadlineError> {
 
 fn fill_repository(package: &mut Package) -> Result<(), ReadlineError> {
     println!("Filling the `repository` field.");
+    println!("Description: \"URL of the package source repository.\"");
     let repository = loop {
         let c: String = prompt(
             "Please choose the method of entering the repository.\n\
@@ -177,6 +192,7 @@ fn fill_repository(package: &mut Package) -> Result<(), ReadlineError> {
 
 fn fill_license(package: &mut Package) -> Result<(), ReadlineError> {
     println!("Filling the `license` field.");
+    println!("Description: \"The package license.\"");
     let license = loop {
         let c: String = prompt(
             "Please choose the method of entering the license.\n\
@@ -198,6 +214,89 @@ fn fill_license(package: &mut Package) -> Result<(), ReadlineError> {
     Ok(())
 }
 
+fn fill_license_file(package: &mut Package) -> Result<(), ReadlineError> {
+    println!("Filling the `license-file` field.");
+    println!("Description: \"Path to the text of the license.\"");
+    let license_file = loop {
+        let c: String = prompt(
+            "Please choose the method of entering the license file.\n\
+            \n\
+            1. Default to `LICENSE`.\n\
+            2. Enter the license file path manually.\n\
+            3. Skip.\n\
+            ",
+        )?;
+        match c.as_str() {
+            "1" => break "LICENSE".to_string(),
+            "2" => {
+                let path: String = prompt("Please enter the license file path")?;
+                break path;
+            }
+            "3" => return Ok(()),
+            _ => println!("Invalid input."),
+        }
+    };
+    let license_file = PathBuf::from(license_file);
+    package.license_file = Some(Inheritable::Set(license_file));
+    Ok(())
+}
+
+fn fill_keywords(package: &mut Package) -> Result<(), ReadlineError> {
+    println!("Filling the `keywords` field.");
+    println!("Description: \"The keywords of the package.\"");
+    let keywords = loop {
+        let c: String = prompt(
+            "Please choose the method of entering the keywords.\n\
+            \n\
+            1. Skip.\n\
+            2. Enter the keywords manually.\n\
+            ",
+        )?;
+        match c.as_str() {
+            "1" => return Ok(()),
+            "2" => {
+                let keywords: String = prompt("Please enter the keywords separated by comma")?;
+                break keywords;
+            }
+            _ => println!("Invalid input."),
+        }
+    };
+    let keywords = keywords
+        .split(',')
+        .map(|s| s.trim().to_string())
+        .collect::<Vec<_>>();
+    package.keywords = Inheritable::Set(keywords);
+    Ok(())
+}
+
+fn fill_categories(package: &mut Package) -> Result<(), ReadlineError> {
+    println!("Filling the `categories` field.");
+    println!("Description: \"Categories of the package.\"");
+    let categories = loop {
+        let c: String = prompt(
+            "Please choose the method of entering the categories.\n\
+            \n\
+            1. Skip.\n\
+            2. Enter the categories manually.\n\
+            ",
+        )?;
+        match c.as_str() {
+            "1" => return Ok(()),
+            "2" => {
+                let categories: String = prompt("Please enter the categories separated by comma")?;
+                break categories;
+            }
+            _ => println!("Invalid input."),
+        }
+    };
+    let categories = categories
+        .split(',')
+        .map(|s| s.trim().to_string())
+        .collect::<Vec<_>>();
+    package.categories = Inheritable::Set(categories);
+    Ok(())
+}
+
 fn main() {
     let mut manifest = read_toml();
     let package = manifest
@@ -213,6 +312,9 @@ fn main() {
     // fill_homepage(package).unwrap();
     // fill_repository(package).unwrap();
     // fill_license(package).unwrap();
+    // fill_license_file(package).unwrap();
+    // fill_keywords(package).unwrap();
+    // fill_categories(package).unwrap();
 
     println!(
         "Cargo.toml:\n\n{}",
