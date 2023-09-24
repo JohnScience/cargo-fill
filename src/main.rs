@@ -1,11 +1,7 @@
-#![allow(dead_code)]
+use cargo_toml::{Inheritable, OptionalFile, Package};
 use std::path::PathBuf;
-
-use cargo_toml::OptionalFile;
-use cargo_toml::Package;
 // TODO: replace promptly with a prompt library
 // that supports reusing the buffer.
-use cargo_toml::Inheritable;
 use promptly::{prompt, ReadlineError};
 
 mod fill_miscellaneous;
