@@ -48,7 +48,9 @@ fn run_msrv(package: &mut Package) -> Result<(), ()> {
         .stderr(Stdio::piped())
         .stdout(Stdio::piped());
 
-    let mut child = command.spawn().expect("failed to spawn cargo-msrv");
+    let mut child = command
+        .spawn()
+        .unwrap_or_else(|e| panic!("failed to spawn cargo-msrv: {}", e));
     // These expects should be guaranteed to be ok because we used piped().
     let mut child_stdout = child.stdout.take().expect("logic error getting stdout");
     let mut child_stderr = child.stderr.take().expect("logic error getting stderr");
@@ -76,16 +78,18 @@ fn run_msrv(package: &mut Package) -> Result<(), ()> {
             Ok(stderr_log)
         });
 
-        let status = child.wait().expect("child wasn't running");
+        let status = child
+            .wait()
+            .unwrap_or_else(|e| panic!("child wasn't running: {}", e));
 
         let stdout_log = stdout_thread
             .join()
-            .expect("stdout thread panicked")
-            .expect("stdout thread failed");
+            .unwrap_or_else(|e| panic!("stdout thread panicked: {:?}", e))
+            .unwrap_or_else(|e| panic!("stdout thread failed: {:?}", e));
         let stderr_log = stderr_thread
             .join()
-            .expect("stderr thread panicked")
-            .expect("stderr thread failed");
+            .unwrap_or_else(|e| panic!("stderr thread panicked: {:?}", e))
+            .unwrap_or_else(|e| panic!("stderr thread failed: {:?}", e));
 
         Output {
             status,
@@ -93,7 +97,7 @@ fn run_msrv(package: &mut Package) -> Result<(), ()> {
             stderr: stderr_log,
         }
     })
-    .expect("stdout/stderr thread panicked");
+    .unwrap_or_else(|e| panic!("stdout/stderr thread panicked: {:?}", e));
 
     if !status.success() {
         eprintln!("cargo-msrv failed with status: {}", status);
