@@ -2,6 +2,11 @@
 
 # `cargo-fill`
 
+[![Crates.io](https://img.shields.io/crates/v/cargo-fill)](https://crates.io/crates/cargo-fill)
+[![Downloads](https://img.shields.io/crates/d/cargo-fill.svg)](https://crates.io/crates/cargo-fill)
+[![License](https://img.shields.io/crates/l/cargo-fill)](https://crates.io/crates/cargo-fill)
+[![Dependency Status](https://deps.rs/repo/github/JohnScience/cargo-fill/status.svg)](https://deps.rs/repo/github/JohnScience/cargo-fill)
+
 An interactive CLI tool for filling the fields of `Cargo.toml` quickly.
 
 ## Installation
