@@ -1,13 +1,22 @@
 [package]
 name = "cargo-fill"
-version = "0.1.0"
 edition = "2021"
-
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+version = "0.1.0"
+authors = ["Dmitrii Demenev <demenev.dmitriy1@gmail.com>"]
+description = "Fill out Cargo.toml quickly"
+documentation = "https://docs.rs/cargo-fill"
+readme = "README.md"
+keywords = ["fill", "Cargo.toml", "manifest", "productivity"]
+categories = [
+    "command-line-utilities",
+    "development-tools",
+    "development-tools::cargo-plugins",
+]
+repository = "https://github.com/JohnScience/cargo-fill"
 
 [dependencies]
-toml = "0.8"
 cargo_toml = "0.16"
-smallstr = "0.3"
-promptly = "0.3"
 crossbeam = "0.8"
+promptly = "0.3"
+smallstr = "0.3"
+toml = "0.8"

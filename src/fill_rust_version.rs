@@ -122,7 +122,7 @@ fn run_msrv(package: &mut Package) -> Result<(), ()> {
 
 pub(crate) fn fill_rust_version(package: &mut Package) -> Result<(), ReadlineError> {
     println!("Filling the `rust-version` field.");
-    println!("Description: \" The minimal supported Rust version.\"");
+    println!("Description: \"The minimal supported Rust version.\"");
     loop {
         let strat: String = prompt(PROMPT)?;
         match strat.as_str() {
@@ -144,5 +144,6 @@ pub(crate) fn fill_rust_version(package: &mut Package) -> Result<(), ReadlineErr
             _ => println!("{}", PROMPT),
         };
     }
+    println!();
     Ok(())
 }

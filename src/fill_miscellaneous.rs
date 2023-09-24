@@ -24,6 +24,7 @@ fn fill_workplace(package: &mut Package) -> Result<(), ReadlineError> {
         }
     };
     package.workspace = Some(workspace);
+    println!();
     Ok(())
 }
 
@@ -49,6 +50,7 @@ fn fill_build(package: &mut Package) -> Result<(), ReadlineError> {
     };
     let build = OptionalFile::Path(PathBuf::from(build));
     package.build = Some(build);
+    println!();
     Ok(())
 }
 
@@ -73,6 +75,7 @@ fn fill_links(package: &mut Package) -> Result<(), ReadlineError> {
         }
     };
     package.links = Some(links);
+    println!();
     Ok(())
 }
 
@@ -102,6 +105,7 @@ fn fill_exclude(package: &mut Package) -> Result<(), ReadlineError> {
         .map(|s| s.trim().to_string())
         .collect::<Vec<_>>();
     package.exclude = Inheritable::Set(exclude);
+    println!();
     Ok(())
 }
 
@@ -131,6 +135,7 @@ fn fill_include(package: &mut Package) -> Result<(), ReadlineError> {
         .map(|s| s.trim().to_string())
         .collect::<Vec<_>>();
     package.include = Inheritable::Set(include);
+    println!();
     Ok(())
 }
 
@@ -165,6 +170,7 @@ fn fill_publish(package: &mut Package) -> Result<(), ReadlineError> {
         }
     };
     package.publish = Inheritable::Set(publish);
+    println!();
     Ok(())
 }
 
@@ -190,6 +196,7 @@ fn fill_default_run(package: &mut Package) -> Result<(), ReadlineError> {
         }
     };
     package.default_run = Some(default_run);
+    println!();
     Ok(())
 }
 
@@ -214,6 +221,7 @@ fn fill_autobins(package: &mut Package) -> Result<(), ReadlineError> {
         }
     };
     package.autobins = autobins;
+    println!();
     Ok(())
 }
 
@@ -238,6 +246,7 @@ fn fill_autoexamples(package: &mut Package) -> Result<(), ReadlineError> {
         }
     };
     package.autoexamples = autoexamples;
+    println!();
     Ok(())
 }
 
@@ -262,6 +271,7 @@ fn fill_autotests(package: &mut Package) -> Result<(), ReadlineError> {
         }
     };
     package.autotests = autotests;
+    println!();
     Ok(())
 }
 
@@ -287,6 +297,7 @@ fn fill_autobenches(package: &mut Package) -> Result<(), ReadlineError> {
     };
 
     package.autobenches = autobenches;
+    println!();
     Ok(())
 }
 
@@ -315,6 +326,7 @@ fn fill_resolver(package: &mut Package) -> Result<(), ReadlineError> {
         }
     };
     package.resolver = Some(resolver);
+    println!();
     Ok(())
 }
 
