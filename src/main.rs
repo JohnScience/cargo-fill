@@ -36,6 +36,7 @@ use promptly::{prompt, ReadlineError};
 mod fill_miscellaneous;
 mod fill_rust_version;
 
+use const_format::formatcp;
 use fill_miscellaneous::fill_miscellaneous;
 use fill_rust_version::fill_rust_version;
 
@@ -294,27 +295,35 @@ fn fill_license_file(package: &mut Package) -> Result<(), ReadlineError> {
 fn fill_keywords(package: &mut Package) -> Result<(), ReadlineError> {
     println!("Filling the `keywords` field.");
     println!("Description: \"The keywords of the package.\"");
+
+    const MAX_KEYWORDS: usize = 5;
+
     let keywords = loop {
-        let c: String = prompt(
+        let c: String = prompt(formatcp!(
             "Please choose the method of entering the keywords.\n\
             \n\
             1. Skip.\n\
-            2. Enter the keywords manually.\n\
-            ",
-        )?;
+            2. Enter the keywords manually (no more than {MAX_KEYWORDS} keywords allowed).\n\
+            "
+        ))?;
         match c.as_str() {
             "1" => return Ok(()),
             "2" => {
                 let keywords: String = prompt("Please enter the keywords separated by comma")?;
+                let keywords = keywords
+                    .split(',')
+                    .map(|s| s.trim().to_string())
+                    .collect::<Vec<_>>();
+                if keywords.len() > MAX_KEYWORDS {
+                    println!("Too many keywords ({} > {}).", keywords.len(), MAX_KEYWORDS);
+                    continue;
+                }
                 break keywords;
             }
             _ => println!("Invalid input."),
         }
     };
-    let keywords = keywords
-        .split(',')
-        .map(|s| s.trim().to_string())
-        .collect::<Vec<_>>();
+
     package.keywords = Inheritable::Set(keywords);
     println!();
     Ok(())
