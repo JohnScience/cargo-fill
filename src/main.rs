@@ -216,10 +216,10 @@ fn fill_repository(package: &mut Package) -> Result<(), ReadlineError> {
                     })
                     .stdout;
                 let url = String::from_utf8(name).unwrap_or_else(|e| panic!("Failed to parse the result of `git config --get remote.origin.url` as a UTF-8 string: {}", e));
-                let url = url
-                    .trim()
-                    .strip_suffix(".git")
-                    .unwrap_or_else(|| panic!("Failed to strip the `.git` suffix from the result of `git config --get remote.origin.url`"));
+
+                let url = url.trim();
+
+                let url = url.strip_suffix(".git").unwrap_or(url);
 
                 println!("Guessed repository: {}", url);
                 if !prompt("Is this correct? (Y/n)")? {

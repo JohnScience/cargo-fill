@@ -6,7 +6,7 @@ use promptly::{prompt, ReadlineError};
 fn fill_workplace(package: &mut Package) -> Result<(), ReadlineError> {
     println!("Filling the `workspace` field.");
     println!("Description: \"Path to the workspace for the package.\"");
-    let workspace = loop {
+    let workspace: String = loop {
         let c: String = prompt(
             "Please choose the method of entering the workspace.\n\
             \n\
@@ -23,6 +23,7 @@ fn fill_workplace(package: &mut Package) -> Result<(), ReadlineError> {
             _ => println!("Invalid input."),
         }
     };
+    let workspace: PathBuf = PathBuf::from(workspace);
     package.workspace = Some(workspace);
     println!();
     Ok(())
